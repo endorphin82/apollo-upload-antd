@@ -1,5 +1,8 @@
 import React, {useCallback} from 'react';
 import gql from 'graphql-tag';
+import {Button, message, Upload} from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+
 import {useDropzone} from 'react-dropzone';
 import {useMutation} from "@apollo/react-hooks";
 
@@ -10,7 +13,7 @@ const uploadFileMutation = gql`
 `;
 
 export default () => {
-  const [mutation] = useMutation(uploadFileMutation)
+  const [mutation, {data}] = useMutation(uploadFileMutation)
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach((file) => {
       console.log(file);
@@ -18,6 +21,26 @@ export default () => {
     })
   }, [])
   const {getRootProps, getInputProps} = useDropzone({onDrop})
+
+  if (data) {
+    if (data.uploadFile = 'file upload successful') {
+      message.success(`${data.uploadFile} file uploaded successfully`)
+    } else if (data.uploadFile = 'please select image') {
+      message.error(`${data.uploadFile} file upload failed.`)
+    }
+  }
+
+  // return (
+  //   <>
+  //     <div {...getRootProps()} >
+  //     <Upload  {...getInputProps()}>
+  //       <Button>
+  //         <UploadOutlined /> Click to Upload
+  //       </Button>
+  //     </Upload>
+  //     </div>
+  //   </>
+  // );
 
   return (
     <>
@@ -27,5 +50,6 @@ export default () => {
       </div>
     </>
   );
+
 }
 
