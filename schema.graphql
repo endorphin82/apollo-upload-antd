@@ -1,0 +1,517 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Category {
+    description: String
+    icon: String!
+    id: Int!
+    images(after: ImageCatWhereUniqueInput, before: ImageCatWhereUniqueInput, first: Int, last: Int): [ImageCat!]!
+    name: String!
+    parent: Int
+    products(after: ProductWhereUniqueInput, before: ProductWhereUniqueInput, first: Int, last: Int): [Product!]!
+    url: String!
+}
+
+type ImageCat {
+    category: Category
+    category_id: Int
+    id: Int!
+    url: String!
+}
+
+type ImageProd {
+    id: Int!
+    product: Product
+    product_id: Int
+    url: String!
+}
+
+type Mutation {
+    createOneCategory(data: CategoryCreateInput!): Category!
+    createOneProduct(data: ProductCreateInput!): Product!
+    deleteOneCategory(where: CategoryWhereUniqueInput!): Category
+    deleteOneProduct(where: ProductWhereUniqueInput!): Product
+    updateOneCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
+    updateOneProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
+    uploadFile(file: Upload!, product_id: Int): String!
+}
+
+type Product {
+    categories(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int): [Category!]!
+    description: String
+    icon: String!
+    id: Int!
+    images(after: ImageProdWhereUniqueInput, before: ImageProdWhereUniqueInput, first: Int, last: Int): [ImageProd!]!
+    name: String!
+    price: Int!
+    url: String!
+}
+
+type Query {
+    categories(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int): [Category!]!
+    category(where: CategoryWhereUniqueInput!): Category
+    categoryByName(name: String!): Category!
+    product(where: ProductWhereUniqueInput!): Product
+    productByName(name: String!): Product!
+    products(after: ProductWhereUniqueInput, before: ProductWhereUniqueInput, first: Int, last: Int): [Product!]!
+    productsByCategoryId(category_id: Int!): [Product!]!
+    productsByNameAndCategoryId(category_id: Int, name: String!): [Product!]!
+}
+
+input CategoryCreateInput {
+    description: String
+    icon: String!
+    images: ImageCatCreateManyWithoutCategoryInput
+    name: String!
+    parent: Int
+    products: ProductCreateManyWithoutCategoriesInput
+    url: String!
+}
+
+input CategoryCreateManyWithoutProductsInput {
+    connect: [CategoryWhereUniqueInput!]
+    create: [CategoryCreateWithoutProductsInput!]
+}
+
+input CategoryCreateWithoutProductsInput {
+    description: String
+    icon: String!
+    images: ImageCatCreateManyWithoutCategoryInput
+    name: String!
+    parent: Int
+    url: String!
+}
+
+input CategoryFilter {
+    every: CategoryWhereInput
+    none: CategoryWhereInput
+    some: CategoryWhereInput
+}
+
+input CategoryScalarWhereInput {
+    AND: [CategoryScalarWhereInput!]
+    NOT: [CategoryScalarWhereInput!]
+    OR: [CategoryScalarWhereInput!]
+    description: NullableStringFilter
+    icon: StringFilter
+    id: IntFilter
+    images: ImageCatFilter
+    name: StringFilter
+    parent: NullableIntFilter
+    products: ProductFilter
+    url: StringFilter
+}
+
+input CategoryUpdateInput {
+    description: String
+    icon: String
+    id: Int
+    images: ImageCatUpdateManyWithoutCategoryInput
+    name: String
+    parent: Int
+    products: ProductUpdateManyWithoutCategoriesInput
+    url: String
+}
+
+input CategoryUpdateManyDataInput {
+    description: String
+    icon: String
+    id: Int
+    name: String
+    parent: Int
+    url: String
+}
+
+input CategoryUpdateManyWithWhereNestedInput {
+    data: CategoryUpdateManyDataInput!
+    where: CategoryScalarWhereInput!
+}
+
+input CategoryUpdateManyWithoutProductsInput {
+    connect: [CategoryWhereUniqueInput!]
+    create: [CategoryCreateWithoutProductsInput!]
+    delete: [CategoryWhereUniqueInput!]
+    deleteMany: [CategoryScalarWhereInput!]
+    disconnect: [CategoryWhereUniqueInput!]
+    set: [CategoryWhereUniqueInput!]
+    update: [CategoryUpdateWithWhereUniqueWithoutProductsInput!]
+    updateMany: [CategoryUpdateManyWithWhereNestedInput!]
+    upsert: [CategoryUpsertWithWhereUniqueWithoutProductsInput!]
+}
+
+input CategoryUpdateWithWhereUniqueWithoutProductsInput {
+    data: CategoryUpdateWithoutProductsDataInput!
+    where: CategoryWhereUniqueInput!
+}
+
+input CategoryUpdateWithoutProductsDataInput {
+    description: String
+    icon: String
+    id: Int
+    images: ImageCatUpdateManyWithoutCategoryInput
+    name: String
+    parent: Int
+    url: String
+}
+
+input CategoryUpsertWithWhereUniqueWithoutProductsInput {
+    create: CategoryCreateWithoutProductsInput!
+    update: CategoryUpdateWithoutProductsDataInput!
+    where: CategoryWhereUniqueInput!
+}
+
+input CategoryWhereInput {
+    AND: [CategoryWhereInput!]
+    NOT: [CategoryWhereInput!]
+    OR: [CategoryWhereInput!]
+    description: NullableStringFilter
+    icon: StringFilter
+    id: IntFilter
+    images: ImageCatFilter
+    name: StringFilter
+    parent: NullableIntFilter
+    products: ProductFilter
+    url: StringFilter
+}
+
+input CategoryWhereUniqueInput {
+    icon: String
+    id: Int
+    name: String
+    url: String
+}
+
+input ImageCatCreateManyWithoutCategoryInput {
+    connect: [ImageCatWhereUniqueInput!]
+    create: [ImageCatCreateWithoutCategoryInput!]
+}
+
+input ImageCatCreateWithoutCategoryInput {
+    url: String!
+}
+
+input ImageCatFilter {
+    every: ImageCatWhereInput
+    none: ImageCatWhereInput
+    some: ImageCatWhereInput
+}
+
+input ImageCatScalarWhereInput {
+    AND: [ImageCatScalarWhereInput!]
+    NOT: [ImageCatScalarWhereInput!]
+    OR: [ImageCatScalarWhereInput!]
+    category_id: NullableIntFilter
+    id: IntFilter
+    url: StringFilter
+}
+
+input ImageCatUpdateManyDataInput {
+    id: Int
+    url: String
+}
+
+input ImageCatUpdateManyWithWhereNestedInput {
+    data: ImageCatUpdateManyDataInput!
+    where: ImageCatScalarWhereInput!
+}
+
+input ImageCatUpdateManyWithoutCategoryInput {
+    connect: [ImageCatWhereUniqueInput!]
+    create: [ImageCatCreateWithoutCategoryInput!]
+    delete: [ImageCatWhereUniqueInput!]
+    deleteMany: [ImageCatScalarWhereInput!]
+    disconnect: [ImageCatWhereUniqueInput!]
+    set: [ImageCatWhereUniqueInput!]
+    update: [ImageCatUpdateWithWhereUniqueWithoutCategoryInput!]
+    updateMany: [ImageCatUpdateManyWithWhereNestedInput!]
+    upsert: [ImageCatUpsertWithWhereUniqueWithoutCategoryInput!]
+}
+
+input ImageCatUpdateWithWhereUniqueWithoutCategoryInput {
+    data: ImageCatUpdateWithoutCategoryDataInput!
+    where: ImageCatWhereUniqueInput!
+}
+
+input ImageCatUpdateWithoutCategoryDataInput {
+    id: Int
+    url: String
+}
+
+input ImageCatUpsertWithWhereUniqueWithoutCategoryInput {
+    create: ImageCatCreateWithoutCategoryInput!
+    update: ImageCatUpdateWithoutCategoryDataInput!
+    where: ImageCatWhereUniqueInput!
+}
+
+input ImageCatWhereInput {
+    AND: [ImageCatWhereInput!]
+    NOT: [ImageCatWhereInput!]
+    OR: [ImageCatWhereInput!]
+    category: CategoryWhereInput
+    category_id: NullableIntFilter
+    id: IntFilter
+    url: StringFilter
+}
+
+input ImageCatWhereUniqueInput {
+    category_id: Int
+    id: Int
+}
+
+input ImageProdCreateManyWithoutProductInput {
+    connect: [ImageProdWhereUniqueInput!]
+    create: [ImageProdCreateWithoutProductInput!]
+}
+
+input ImageProdCreateWithoutProductInput {
+    url: String!
+}
+
+input ImageProdFilter {
+    every: ImageProdWhereInput
+    none: ImageProdWhereInput
+    some: ImageProdWhereInput
+}
+
+input ImageProdScalarWhereInput {
+    AND: [ImageProdScalarWhereInput!]
+    NOT: [ImageProdScalarWhereInput!]
+    OR: [ImageProdScalarWhereInput!]
+    id: IntFilter
+    product_id: NullableIntFilter
+    url: StringFilter
+}
+
+input ImageProdUpdateManyDataInput {
+    id: Int
+    url: String
+}
+
+input ImageProdUpdateManyWithWhereNestedInput {
+    data: ImageProdUpdateManyDataInput!
+    where: ImageProdScalarWhereInput!
+}
+
+input ImageProdUpdateManyWithoutProductInput {
+    connect: [ImageProdWhereUniqueInput!]
+    create: [ImageProdCreateWithoutProductInput!]
+    delete: [ImageProdWhereUniqueInput!]
+    deleteMany: [ImageProdScalarWhereInput!]
+    disconnect: [ImageProdWhereUniqueInput!]
+    set: [ImageProdWhereUniqueInput!]
+    update: [ImageProdUpdateWithWhereUniqueWithoutProductInput!]
+    updateMany: [ImageProdUpdateManyWithWhereNestedInput!]
+    upsert: [ImageProdUpsertWithWhereUniqueWithoutProductInput!]
+}
+
+input ImageProdUpdateWithWhereUniqueWithoutProductInput {
+    data: ImageProdUpdateWithoutProductDataInput!
+    where: ImageProdWhereUniqueInput!
+}
+
+input ImageProdUpdateWithoutProductDataInput {
+    id: Int
+    url: String
+}
+
+input ImageProdUpsertWithWhereUniqueWithoutProductInput {
+    create: ImageProdCreateWithoutProductInput!
+    update: ImageProdUpdateWithoutProductDataInput!
+    where: ImageProdWhereUniqueInput!
+}
+
+input ImageProdWhereInput {
+    AND: [ImageProdWhereInput!]
+    NOT: [ImageProdWhereInput!]
+    OR: [ImageProdWhereInput!]
+    id: IntFilter
+    product: ProductWhereInput
+    product_id: NullableIntFilter
+    url: StringFilter
+}
+
+input ImageProdWhereUniqueInput {
+    id: Int
+    product_id: Int
+}
+
+input IntFilter {
+    equals: Int
+    gt: Int
+    gte: Int
+    in: [Int!]
+    lt: Int
+    lte: Int
+    not: Int
+    notIn: [Int!]
+}
+
+input NullableIntFilter {
+    equals: Int
+    gt: Int
+    gte: Int
+    in: [Int!]
+    lt: Int
+    lte: Int
+    not: Int
+    notIn: [Int!]
+}
+
+input NullableStringFilter {
+    contains: String
+    endsWith: String
+    equals: String
+    gt: String
+    gte: String
+    in: [String!]
+    lt: String
+    lte: String
+    not: String
+    notIn: [String!]
+    startsWith: String
+}
+
+input ProductCreateInput {
+    categories: CategoryCreateManyWithoutProductsInput
+    description: String
+    icon: String!
+    images: ImageProdCreateManyWithoutProductInput
+    name: String!
+    price: Int!
+    url: String!
+}
+
+input ProductCreateManyWithoutCategoriesInput {
+    connect: [ProductWhereUniqueInput!]
+    create: [ProductCreateWithoutCategoriesInput!]
+}
+
+input ProductCreateWithoutCategoriesInput {
+    description: String
+    icon: String!
+    images: ImageProdCreateManyWithoutProductInput
+    name: String!
+    price: Int!
+    url: String!
+}
+
+input ProductFilter {
+    every: ProductWhereInput
+    none: ProductWhereInput
+    some: ProductWhereInput
+}
+
+input ProductScalarWhereInput {
+    AND: [ProductScalarWhereInput!]
+    NOT: [ProductScalarWhereInput!]
+    OR: [ProductScalarWhereInput!]
+    categories: CategoryFilter
+    description: NullableStringFilter
+    icon: StringFilter
+    id: IntFilter
+    images: ImageProdFilter
+    name: StringFilter
+    price: IntFilter
+    url: StringFilter
+}
+
+input ProductUpdateInput {
+    categories: CategoryUpdateManyWithoutProductsInput
+    description: String
+    icon: String
+    id: Int
+    images: ImageProdUpdateManyWithoutProductInput
+    name: String
+    price: Int
+    url: String
+}
+
+input ProductUpdateManyDataInput {
+    description: String
+    icon: String
+    id: Int
+    name: String
+    price: Int
+    url: String
+}
+
+input ProductUpdateManyWithWhereNestedInput {
+    data: ProductUpdateManyDataInput!
+    where: ProductScalarWhereInput!
+}
+
+input ProductUpdateManyWithoutCategoriesInput {
+    connect: [ProductWhereUniqueInput!]
+    create: [ProductCreateWithoutCategoriesInput!]
+    delete: [ProductWhereUniqueInput!]
+    deleteMany: [ProductScalarWhereInput!]
+    disconnect: [ProductWhereUniqueInput!]
+    set: [ProductWhereUniqueInput!]
+    update: [ProductUpdateWithWhereUniqueWithoutCategoriesInput!]
+    updateMany: [ProductUpdateManyWithWhereNestedInput!]
+    upsert: [ProductUpsertWithWhereUniqueWithoutCategoriesInput!]
+}
+
+input ProductUpdateWithWhereUniqueWithoutCategoriesInput {
+    data: ProductUpdateWithoutCategoriesDataInput!
+    where: ProductWhereUniqueInput!
+}
+
+input ProductUpdateWithoutCategoriesDataInput {
+    description: String
+    icon: String
+    id: Int
+    images: ImageProdUpdateManyWithoutProductInput
+    name: String
+    price: Int
+    url: String
+}
+
+input ProductUpsertWithWhereUniqueWithoutCategoriesInput {
+    create: ProductCreateWithoutCategoriesInput!
+    update: ProductUpdateWithoutCategoriesDataInput!
+    where: ProductWhereUniqueInput!
+}
+
+input ProductWhereInput {
+    AND: [ProductWhereInput!]
+    NOT: [ProductWhereInput!]
+    OR: [ProductWhereInput!]
+    categories: CategoryFilter
+    description: NullableStringFilter
+    icon: StringFilter
+    id: IntFilter
+    images: ImageProdFilter
+    name: StringFilter
+    price: IntFilter
+    url: StringFilter
+}
+
+input ProductWhereUniqueInput {
+    icon: String
+    id: Int
+    name: String
+    url: String
+}
+
+input StringFilter {
+    contains: String
+    endsWith: String
+    equals: String
+    gt: String
+    gte: String
+    in: [String!]
+    lt: String
+    lte: String
+    not: String
+    notIn: [String!]
+    startsWith: String
+}
+
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
