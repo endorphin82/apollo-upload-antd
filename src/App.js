@@ -15,13 +15,26 @@ const uploadFilesMutation = gql`
 export default () => {
   const [mutation, {data}] = useMutation(uploadFilesMutation)
   const onDrop = useCallback(acceptedFiles => {
-    return mutation({variables: {files: acceptedFiles, product_id: 1}});
+    console.log("acceptedFiles", acceptedFiles.fileList);
+    return mutation({variables: {files: acceptedFiles.fileList, product_id: 1}});
     // acceptedFiles.forEach((file) => {
     //   console.log(file);
     //   return mutation({variables: {file, product_id: 1}});
     // })
   }, [])
   const {getRootProps, getInputProps} = useDropzone({onDrop})
+
+  // const handleUpload = (acceptedFiles) => {
+  //   console.log("acceptedFiles", acceptedFiles.fileList);
+  //   mutation({variables: {files: acceptedFiles.fileList, product_id: 1}})
+  //     .then(() => console.log("mut"))
+  //     .catch(err => console.log("nomut", err))
+  // }
+
+  const handleChange = () => {
+    console.log("handleChange")
+  }
+
   //
   // if (data) {
   //   if (data.uploadFile = 'file upload successful') {
@@ -31,26 +44,33 @@ export default () => {
   //   }
   // }
 
-  // return (
-  //   <>
-  //     <div {...getRootProps()} >
-  //     <Upload  {...getInputProps()}>
-  //       <Button>
-  //         <UploadOutlined /> Click to Upload
-  //       </Button>
-  //     </Upload>
-  //     </div>
-  //   </>
-  // );
-  console.log('data', data);
   return (
     <>
-      <div {...getRootProps()}>
-        <input multiple={true} {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+      <div>
+        <Upload multiple onChange={handleChange}>
+          <Button>
+            <UploadOutlined/> Select File
+          </Button>
+        </Upload>
+        <Button
+          type="primary"
+          disabled={false}
+          style={{marginTop: 26}}
+        >
+
+        </Button>
       </div>
     </>
   );
+  // console.log('data', getRootProps());
+  // return (
+  //   <>
+  //     <div {...getRootProps()}>
+  //       <input multiple={true} {...getInputProps()} />
+  //       <p>Drag 'n' drop some files here, or click to select files</p>
+  //     </div>
+  //   </>
+  // );
 
 }
 
