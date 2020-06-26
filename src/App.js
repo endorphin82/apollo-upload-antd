@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import gql from 'graphql-tag';
-import {Button, message, Upload} from 'antd';
+import {Button, message, Upload, Form} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 
 import {useDropzone} from 'react-dropzone';
@@ -31,8 +31,10 @@ export default () => {
   //     .catch(err => console.log("nomut", err))
   // }
 
-  const handleChange = () => {
-    console.log("handleChange")
+  const handleChange = (acceptedFiles) => {
+    acceptedFiles.perventDefault()
+    console.log("handleChange", acceptedFiles)
+    mutation({variables: {files: acceptedFiles.fileList, product_id: 1}});
   }
 
   //
@@ -46,8 +48,8 @@ export default () => {
 
   return (
     <>
-      <div>
-        <Upload multiple onChange={handleChange}>
+      <Form onFinish={handleChange}>
+        <Upload multiple >
           <Button>
             <UploadOutlined/> Select File
           </Button>
@@ -59,7 +61,7 @@ export default () => {
         >
 
         </Button>
-      </div>
+      </Form>
     </>
   );
   // console.log('data', getRootProps());
