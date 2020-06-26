@@ -38,6 +38,7 @@ type Mutation {
     updateOneCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
     updateOneProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
     uploadFile(file: Upload!, product_id: Int): String!
+    uploadFiles(files: [Upload!]!, product_id: Int): String!
 }
 
 type Product {
