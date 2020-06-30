@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useStateCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import gql from 'graphql-tag';
 import {Button, message, Upload, Form} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
@@ -60,7 +60,7 @@ export default () => {
       <Upload {...props}
       >
         <Button>
-          <UploadOutlined/> Select File
+          <UploadOutlined/> Select Files
         </Button>
       </Upload>
       <Button
