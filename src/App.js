@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import gql from 'graphql-tag';
 import {Button, message, Upload, Form} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
@@ -8,60 +8,70 @@ import {useMutation} from "@apollo/react-hooks";
 
 const uploadFilesMutation = gql`
     mutation($files: [Upload!]!, $product_id: Int) {
-        uploadFiles(files: $files, product_id: $product_id)
+        uploadFiles(files: $files, product_id: $product_id){
+            url
+        }
     }
 `;
-
+const uploadFileMutation = gql`
+    mutation($file: Upload!, $product_id: Int) {
+        uploadFile(file: $file, product_id: $product_id)
+    }
+`;
 export default () => {
   const [mutation, {data}] = useMutation(uploadFilesMutation)
-  const onDrop = useCallback(acceptedFiles => {
-    console.log("acceptedFiles", acceptedFiles.fileList);
-    return mutation({variables: {files: acceptedFiles.fileList, product_id: 1}});
-    // acceptedFiles.forEach((file) => {
-    //   console.log(file);
-    //   return mutation({variables: {file, product_id: 1}});
-    // })
-  }, [])
-  const {getRootProps, getInputProps} = useDropzone({onDrop})
+  const [uploading, setUploading] = useState(false)
+  const [fileList, setFileList] = useState([])
 
-  // const handleUpload = (acceptedFiles) => {
-  //   console.log("acceptedFiles", acceptedFiles.fileList);
-  //   mutation({variables: {files: acceptedFiles.fileList, product_id: 1}})
-  //     .then(() => console.log("mut"))
-  //     .catch(err => console.log("nomut", err))
-  // }
+  const handleUpload = () => {
+    // console.log("asda", files);
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append('files[]', file);
+    });
+    setUploading(true)
+    // mutation({variables: {files: fileList, product_id: 1}});
 
-  const handleChange = (acceptedFiles) => {
-    acceptedFiles.perventDefault()
-    console.log("handleChange", acceptedFiles)
-    mutation({variables: {files: acceptedFiles.fileList, product_id: 1}});
+    return new Promise(async (resolve, reject) => {
+      mutation({variables: {files: fileList, product_id: 1}});
+      resolve(fileList);
+    });
   }
-
-  //
-  // if (data) {
-  //   if (data.uploadFile = 'file upload successful') {
-  //     message.success(`${data.uploadFile} file uploaded successfully`)
-  //   } else if (data.uploadFile = 'please select image') {
-  //     message.error(`${data.uploadFile} file upload failed.`)
-  //   }
-  // }
+  const props = {
+    multiple: true,
+    beforeUpload: file => {
+      setFileList(fileList =>
+        [...fileList, file],
+      )
+      return false;
+    },
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList([...newFileList])
+    },
+    fileList
+  }
 
   return (
     <>
-      <Form onFinish={handleChange}>
-        <Upload multiple >
-          <Button>
-            <UploadOutlined/> Select File
-          </Button>
-        </Upload>
-        <Button
-          type="primary"
-          disabled={false}
-          style={{marginTop: 26}}
-        >
-
+      {/*<Form onFinish={handleChange}>*/}
+      <Upload {...props}
+      >
+        <Button>
+          <UploadOutlined/> Select Files
         </Button>
-      </Form>
+      </Upload>
+      <Button
+        type="primary"
+        disabled={false}
+        style={{marginTop: 26}}
+        onClick={handleUpload}
+      >
+        start upload
+      </Button>
+      {/*</Form>*/}
     </>
   );
   // console.log('data', getRootProps());
