@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import gql from 'graphql-tag';
 import {Button, message, Upload, Form} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
@@ -14,54 +14,37 @@ const uploadFilesMutation = gql`
 
 export default () => {
   const [mutation, {data}] = useMutation(uploadFilesMutation)
-  const onDrop = useCallback(acceptedFiles => {
-    console.log("acceptedFiles", acceptedFiles.fileList);
-    return mutation({variables: {files: acceptedFiles.fileList, product_id: 1}});
-    // acceptedFiles.forEach((file) => {
-    //   console.log(file);
-    //   return mutation({variables: {file, product_id: 1}});
-    // })
-  }, [])
-  const {getRootProps, getInputProps} = useDropzone({onDrop})
 
-  // const handleUpload = (acceptedFiles) => {
-  //   console.log("acceptedFiles", acceptedFiles.fileList);
-  //   mutation({variables: {files: acceptedFiles.fileList, product_id: 1}})
-  //     .then(() => console.log("mut"))
-  //     .catch(err => console.log("nomut", err))
-  // }
+  const handleUpload = (files) => {
+    console.log("asda", files);
 
-  const handleChange = (acceptedFiles) => {
-    acceptedFiles.perventDefault()
-    console.log("handleChange", acceptedFiles)
-    mutation({variables: {files: acceptedFiles.fileList, product_id: 1}});
+    return new Promise(async (resolve, reject) => {
+      mutation({variables: {files, product_id: 1}});
+
+      resolve(files);
+    });
   }
 
-  //
-  // if (data) {
-  //   if (data.uploadFile = 'file upload successful') {
-  //     message.success(`${data.uploadFile} file uploaded successfully`)
-  //   } else if (data.uploadFile = 'please select image') {
-  //     message.error(`${data.uploadFile} file upload failed.`)
-  //   }
-  // }
 
   return (
     <>
-      <Form onFinish={handleChange}>
-        <Upload multiple >
-          <Button>
-            <UploadOutlined/> Select File
-          </Button>
-        </Upload>
-        <Button
-          type="primary"
-          disabled={false}
-          style={{marginTop: 26}}
-        >
-
+    {/*<Form onFinish={handleChange}>*/}
+      <Upload multiple
+              // beforeUpload={handleBeforeUpload}
+        action={handleUpload}
+      >
+        <Button>
+          <UploadOutlined/> Select File
         </Button>
-      </Form>
+      </Upload>
+      <Button
+        type="primary"
+        disabled={false}
+        style={{marginTop: 26}}
+      >
+
+      </Button>
+      {/*</Form>*/}
     </>
   );
   // console.log('data', getRootProps());

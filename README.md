@@ -1,5 +1,5 @@
 https://levelup.gitconnected.com/managing-file-uploads-with-ant-design-6d78e592f2c4
-
+https://stackoverflow.com/questions/47021594/how-should-customrequest-be-set-in-the-ant-design-upload-component-to-work-with
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
