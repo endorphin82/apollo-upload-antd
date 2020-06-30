@@ -7,6 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 import * as serviceWorker from './serviceWorker';
 import 'antd/dist/antd.css';
+import Demo from "./b";
 
 const link = createUploadLink({ uri: 'http://localhost:3005' });
 
@@ -17,6 +18,7 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
+    {/*<Demo/>*/}
     <App/>
   </ApolloProvider>,
   document.getElementById('root')
