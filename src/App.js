@@ -9,15 +9,14 @@ import {useMutation} from "@apollo/react-hooks";
 const uploadFilesMutation = gql`
     mutation($files: [Upload!]!, $product_id: Int) {
         uploadFiles(files: $files, product_id: $product_id){
+            uid
+            name
+            status
             url
         }
     }
 `;
-const uploadFileMutation = gql`
-    mutation($file: Upload!, $product_id: Int) {
-        uploadFile(file: $file, product_id: $product_id)
-    }
-`;
+
 export default () => {
   const [mutation, {data}] = useMutation(uploadFilesMutation)
   const [uploading, setUploading] = useState(false)
@@ -30,13 +29,14 @@ export default () => {
       formData.append('files[]', file);
     });
     setUploading(true)
-    // mutation({variables: {files: fileList, product_id: 1}});
-
-    return new Promise(async (resolve, reject) => {
-      mutation({variables: {files: fileList, product_id: 1}});
-      resolve(fileList);
-    });
+    mutation({variables: {files: fileList, product_id: 1}});
+    setFileList(() => [])
+    // return new Promise(async (resolve, reject) => {
+    //   mutation({variables: {files: fileList, product_id: 1}});
+    // resolve(fileList);
+    // });
   }
+
   const props = {
     multiple: true,
     beforeUpload: file => {
@@ -53,6 +53,11 @@ export default () => {
     },
     fileList
   }
+
+  console.log('uploadFiles', data?.uploadFiles)
+
+
+
 
   return (
     <>
@@ -74,15 +79,6 @@ export default () => {
       {/*</Form>*/}
     </>
   );
-  // console.log('data', getRootProps());
-  // return (
-  //   <>
-  //     <div {...getRootProps()}>
-  //       <input multiple={true} {...getInputProps()} />
-  //       <p>Drag 'n' drop some files here, or click to select files</p>
-  //     </div>
-  //   </>
-  // );
 
 }
 
