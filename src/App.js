@@ -1,9 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import gql from 'graphql-tag';
 import {Button, message, Upload, Form} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 
-import {useDropzone} from 'react-dropzone';
 import {useMutation} from "@apollo/react-hooks";
 
 const uploadFilesMutation = gql`
@@ -55,9 +54,6 @@ export default () => {
   }
 
   console.log('uploadFiles', data?.uploadFiles)
-
-
-
 
   return (
     <>
