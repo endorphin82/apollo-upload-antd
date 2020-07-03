@@ -38,8 +38,9 @@ type ImageProd {
 }
 
 type Mutation {
+    _createOneProduct(data: ProductCreateInput!): Product!
     createOneCategory(data: CategoryCreateInput!): Category!
-    createOneProduct(data: ProductCreateInput!): Product!
+    createOneProduct(data: ProductCreateInput!, files: [Upload!]!): [Product!]!
     deleteOneCategory(where: CategoryWhereUniqueInput!): Category
     deleteOneProduct(where: ProductWhereUniqueInput!): Product
     updateOneCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
@@ -51,6 +52,7 @@ type Mutation {
 type Product {
     categories(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int): [Category!]!
     description: String
+    files: [File!]!
     icon: String
     id: Int!
     images(after: ImageProdWhereUniqueInput, before: ImageProdWhereUniqueInput, first: Int, last: Int): [ImageProd!]!

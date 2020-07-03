@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import gql from 'graphql-tag';
-import {Button, message, Upload, Form} from 'antd';
+import {Button, message, Upload, Form, Input} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 
 import {useMutation} from "@apollo/react-hooks";
@@ -16,25 +16,53 @@ const uploadFilesMutation = gql`
     }
 `;
 
-export default () => {
-  const [mutation, {data}] = useMutation(uploadFilesMutation)
-  const [uploading, setUploading] = useState(false)
-  const [fileList, setFileList] = useState([])
+const CreateOneProduct = gql`
+    mutation($data: ProductCreateInput!, $files: [Upload!]!) {
+        createOneProduct(files: $files, data: $data){
+            name
+            url
+            price
+            #            files{
+            #                uid
+            #                name
+            #                status
+            #                url
+            #            }
+        }
+    }
+`;
 
+export default () => {
+  const [mutation, {data}] = useMutation(CreateOneProduct)
+  const [uploading, setUploading] = useState(false)
+  const [values, setValues] = useState(false)
+  const [fileList, setFileList] = useState([])
+  let val = {...values, price: Number(values.price)}
   const handleUpload = () => {
-    // console.log("asda", files);
     const formData = new FormData();
     fileList.forEach(file => {
       formData.append('files[]', file);
     });
     setUploading(true)
-    mutation({variables: {files: fileList, product_id: 1}});
+    mutation({variables: {files: fileList, data: {...val}}});
     setFileList(() => [])
-    // return new Promise(async (resolve, reject) => {
-    //   mutation({variables: {files: fileList, product_id: 1}});
-    // resolve(fileList);
-    // });
   }
+
+  //
+  // const handleUpload = () => {
+  //   // console.log("asda", files);
+  //   const formData = new FormData();
+  //   fileList.forEach(file => {
+  //     formData.append('files[]', file);
+  //   });
+  //   setUploading(true)
+  //   mutation({variables: {files: fileList, prodataduct_id: 1}});
+  //   setFileList(() => [])
+  //   // return new Promise(async (resolve, reject) => {
+  //   //   mutation({variables: {files: fileList, product_id: 1}});
+  //   // resolve(fileList);
+  //   // });
+  // }
 
   const props = {
     multiple: true,
@@ -52,12 +80,22 @@ export default () => {
     },
     fileList
   }
-
-  console.log('uploadFiles', data?.uploadFiles)
+  console.log("values", values)
+  const handleChange = (e) => {
+    const {name, value} = e.target
+    setValues({...values, [name]: value})
+  }
+  console.log('createOneProduct', data?.createOneProduct)
 
   return (
     <>
       {/*<Form onFinish={handleChange}>*/}
+      <Input onChange={handleChange} name="name" placeholder="name" style={{width: '100%', marginRight: 8}}/>
+      <Input onChange={handleChange} name="url" placeholder="url" style={{width: '100%', marginRight: 8}}/>
+      <Input onChange={handleChange} name="icon" placeholder="icon" style={{width: '100%', marginRight: 8}}/>
+      <Input onChange={handleChange} type="number" name="price" placeholder="Price $"
+             style={{width: '100%', marginRight: 8}}/>
+
       <Upload {...props}
       >
         <Button>
