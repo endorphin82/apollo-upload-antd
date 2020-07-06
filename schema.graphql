@@ -7,7 +7,7 @@ schema {
 
 type Category {
     description: String
-    icon: String
+    icon: String!
     id: Int!
     images(after: ImageCatWhereUniqueInput, before: ImageCatWhereUniqueInput, first: Int, last: Int): [ImageCat!]!
     name: String!
@@ -40,7 +40,7 @@ type ImageProd {
 type Mutation {
     _createOneProduct(data: ProductCreateInput!): Product!
     createOneCategory(data: CategoryCreateInput!): Category!
-    createOneProduct(data: ProductCreateInput!, files: [Upload!]!): [Product!]!
+    createOneProduct(data: ProductCreateInput!, files: [Upload!]): Product!
     deleteOneCategory(where: CategoryWhereUniqueInput!): Category
     deleteOneProduct(where: ProductWhereUniqueInput!): Product
     updateOneCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
@@ -52,10 +52,10 @@ type Mutation {
 type Product {
     categories(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int): [Category!]!
     description: String
-    files: [File!]!
-    icon: String
+    icon: String!
     id: Int!
     images(after: ImageProdWhereUniqueInput, before: ImageProdWhereUniqueInput, first: Int, last: Int): [ImageProd!]!
+    img: String
     name: String!
     price: Int!
     url: String!
@@ -74,7 +74,7 @@ type Query {
 
 input CategoryCreateInput {
     description: String
-    icon: String
+    icon: String!
     images: ImageCatCreateManyWithoutCategoryInput
     name: String!
     parent: Int
@@ -89,7 +89,7 @@ input CategoryCreateManyWithoutProductsInput {
 
 input CategoryCreateWithoutProductsInput {
     description: String
-    icon: String
+    icon: String!
     images: ImageCatCreateManyWithoutCategoryInput
     name: String!
     parent: Int
@@ -107,7 +107,7 @@ input CategoryScalarWhereInput {
     NOT: [CategoryScalarWhereInput!]
     OR: [CategoryScalarWhereInput!]
     description: NullableStringFilter
-    icon: NullableStringFilter
+    icon: StringFilter
     id: IntFilter
     images: ImageCatFilter
     name: StringFilter
@@ -179,7 +179,7 @@ input CategoryWhereInput {
     NOT: [CategoryWhereInput!]
     OR: [CategoryWhereInput!]
     description: NullableStringFilter
-    icon: NullableStringFilter
+    icon: StringFilter
     id: IntFilter
     images: ImageCatFilter
     name: StringFilter
@@ -387,8 +387,9 @@ input NullableStringFilter {
 input ProductCreateInput {
     categories: CategoryCreateManyWithoutProductsInput
     description: String
-    icon: String
+    icon: String!
     images: ImageProdCreateManyWithoutProductInput
+    img: String
     name: String!
     price: Int!
     url: String!
@@ -401,8 +402,9 @@ input ProductCreateManyWithoutCategoriesInput {
 
 input ProductCreateWithoutCategoriesInput {
     description: String
-    icon: String
+    icon: String!
     images: ImageProdCreateManyWithoutProductInput
+    img: String
     name: String!
     price: Int!
     url: String!
@@ -420,9 +422,10 @@ input ProductScalarWhereInput {
     OR: [ProductScalarWhereInput!]
     categories: CategoryFilter
     description: NullableStringFilter
-    icon: NullableStringFilter
+    icon: StringFilter
     id: IntFilter
     images: ImageProdFilter
+    img: NullableStringFilter
     name: StringFilter
     price: IntFilter
     url: StringFilter
@@ -434,6 +437,7 @@ input ProductUpdateInput {
     icon: String
     id: Int
     images: ImageProdUpdateManyWithoutProductInput
+    img: String
     name: String
     price: Int
     url: String
@@ -443,6 +447,7 @@ input ProductUpdateManyDataInput {
     description: String
     icon: String
     id: Int
+    img: String
     name: String
     price: Int
     url: String
@@ -475,6 +480,7 @@ input ProductUpdateWithoutCategoriesDataInput {
     icon: String
     id: Int
     images: ImageProdUpdateManyWithoutProductInput
+    img: String
     name: String
     price: Int
     url: String
@@ -492,9 +498,10 @@ input ProductWhereInput {
     OR: [ProductWhereInput!]
     categories: CategoryFilter
     description: NullableStringFilter
-    icon: NullableStringFilter
+    icon: StringFilter
     id: IntFilter
     images: ImageProdFilter
+    img: NullableStringFilter
     name: StringFilter
     price: IntFilter
     url: StringFilter
